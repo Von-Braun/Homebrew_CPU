@@ -1,0 +1,7 @@
+Note: All python files use python 2
+
+RSSB emulator debug = an RSSB emulator. Code goes in the input file, and any program output is recorded in the output file.
+rssb to hex = converts rssb code in the input file to hex in the output file.
+brainfuck to rssb = My attempts at converting brainfuck code to RSSB code.
+Chiptune to Brainfuck = programs for playing simple tunes.
+RSSB_Help.txt = contains outdated info, but probably usefull for the provided programs.

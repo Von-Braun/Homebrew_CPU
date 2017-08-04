@@ -1,0 +1,359 @@
+What's what
+----------------------------------------------------------------------------
+A=RAM addr from ROM
+Acc=A-ACC
+A=ACC
+PC+=1
+if borrow: PC+=1
+
+0=IAR
+1=IAR2
+2=IN
+3=OUT
+4=ACC
+5=ZERO
+6=NOP
+7=NOP
+8+=RAM
+
+Note: address 8 is reserved for the number 1
+Note: address 9 is reserved for the number 10
+Note: RAM DATA is random and must be erased for predictable use
+NOTE: program must auto increment IAR2 after 255 commands
+
+
+INDEX
+----------------------------------------------------------------------------
+
+>	-increment the data pointer (to point to the next cell to the right).
+<	-decrement the data pointer (to point to the next cell to the left).
++	-increment (increase by one) the byte at the data pointer.
+-	-decrement (decrease by one) the byte at the data pointer.
+.	-output the byte at the data pointer.
+,	-accept one byte of input, storing its value in the byte at the data pointer.
+[	-if the byte at the data pointer is zero, then instead of moving the 
+        instruction pointer forward to the next command, jump it forward to 
+        the command after the matching ] command.
+]	-if the byte at the data pointer is nonzero, then instead of moving the
+        instruction pointer forward to the next command, jump it back to the 
+        command after the matching [ command.
+
+
+INISIALIZE #place numbers in RAM
+---------------------------------------------------------------------------
+place 1 in addr 8 #1 comes from IAR
+place 10 in addr 9 #1 comes from IAR
+
+#IN HEX
+0 |8 #erase address 8
+1 |8
+2 |9 #erase address 9
+3 |9
+4 |0 #4-0=4
+5 |0 #5-4=1 #would jump to 1!!!!!!!!!!!!!!!!!!!
+6 |5 #0-1=-1 #skips
+7 |0 #never runs
+8 |8 #0--1=1 #skips
+9 |0 #never runs
+10|4 #clear acc
+11|5 #do nothing
+12|0 #10-0=10
+13|5 #0-10=-10 #skips
+14|0 #never runs
+15|9 #0--10=10 #skips
+16|0 #never runs
+
+ERASE REGISTER
+---------------------------------------------------------------------------
+#clear acc
+|A=acc
+|Acc=ACC-ACC
+|A=0
+|PC+=1
+
+#erase ram data
+|A=8
+|Acc=12-ACC
+|A=12
+|PC+=1
+|
+|A=8
+|Acc=12-ACC
+|A=0
+|PC+=1
+
+#in hex
+|4
+|REG
+|REG
+
+CLEAR ACC
+---------------------------------------------------------------------------
+#clear ACC
+|A=acc
+|Acc=ACC-ACC
+|A=0
+|PC+=1
+
+#in hex
+|4
+
+SUBTRACT 1 from current cell
+---------------------------------------------------------------------------
+#RAM=RAM-1
+#erace acc,place 1 in ACC, use RAM, ACC and RAM = answer
+
+CLEAR ACC()
+
+#get the answer
+|#place 1 in ACC
+||REG=8
+||Acc=1-0
+||REG=1
+||PC+=1
+|
+|#get RAM-1
+||REG=RAM
+||Acc=RAM-1
+||REG=answer
+||PC+=1
+||if borrow: PC+=1 #only if RAM is zero
+CLEAR ACC()
+CLEAR ACC()
+
+#in hex
+|4
+|8
+|RAM
+|4
+|4
+
+
+
+
+
+ADD 1 to current cell
+---------------------------------------------------------------------------
+
+#RAM=RAM+1
+#erace acc,place 1 in ACC, negate ACC, use RAM, ACC and RAM = answer
+
+CLEAR ACC()
+
+#get the answer
+|#place 1 in ACC
+||REG=8
+||Acc=1-0
+||REG=1
+||PC+=1
+|
+|#negate ACC to get -1
+||REG=5
+||Acc=0-ACC
+||REG=-ACC
+||PC+=1
+||if borrow: PC+=1 #will always skip
+|
+|#never run due to the previous skip that always executes
+||REG=0
+||Acc=IAR-ACC
+||REG=IAR-ACC
+||PC+=1
+|
+|#get RAM--1
+||REG=RAM
+||Acc=RAM--1
+||REG=answer
+||PC+=1
+||if borrow: PC+=1 #only if RAM is NOT -1
+CLEAR ACC()
+CLEAR ACC()
+
+#in hex
+|4
+|8
+|5
+|0
+|RAM
+|4
+|4
+
+LEFT #subtract 1 from MAR
+---------------------------------------------------------------------------
+#MAR=MAR-1
+#erace acc,place 1 in ACC, use MAR, ACC and MAR = answer
+
+CLEAR ACC()
+
+#get the answer
+|#place 1 in ACC
+||REG=8
+||Acc=1-0
+||REG=1
+||PC+=1
+|
+|#get MAR-1
+||REG=MAR
+||Acc=MAR-1
+||REG=answer
+||PC+=1
+||if borrow: PC+=1 #only if MAR is zero
+CLEAR ACC()
+CLEAR ACC()
+
+#in hex
+|4
+|8
+|MAR
+|4
+|4
+
+RIGHT #add 1 to MAR
+---------------------------------------------------------------------------
+#MAR=MAR+1
+#erace acc,place 1 in ACC, negate ACC, use MAR, ACC and MAR = answer
+
+CLEAR ACC()
+
+#get the answer
+|#place 1 in ACC
+||REG=8
+||Acc=1-0
+||REG=1
+||PC+=1
+|
+|#negate ACC to get -1
+||REG=5
+||Acc=0-ACC
+||REG=-ACC
+||PC+=1
+||if borrow: PC+=1 #will always skip
+|
+|#never run due to the previous skip that always executes
+||REG=0
+||Acc=IAR-ACC
+||REG=IAR-ACC
+||PC+=1
+|
+|#get MAR--1
+||REG=MAR
+||Acc=MAR--1
+||REG=answer
+||PC+=1
+||if borrow: PC+=1 #only if MAR is NOT -1
+CLEAR ACC()
+CLEAR ACC()
+
+#in hex
+|4
+|8
+|5
+|0
+|MAR
+|4
+|4
+
+OUT #put ram in out
+---------------------------------------------------------------------------
+
+#put ram in out
+|
+|ERASE REGISTER(OUT)
+|
+|#put ram into acc
+||A=RAM
+||Acc=RAM-0
+||RAM=RAM
+||PC+=1
+|
+|
+|#negate ACC to get -RAM
+||REG=5
+||Acc=0-ACC
+||REG=-ACC
+||PC+=1
+||if borrow: PC+=1 #will always skip except when RAM is zero
+|
+|CLEAR ACC() #if RAM is zero then 0-0 will be zero anyway
+|
+|#never run due to the previous skip that always executes
+||REG=0
+||Acc=IAR-ACC
+||REG=IAR-ACC
+||PC+=1
+|
+|#get OUT--RAM
+||REG=OUT
+||Acc=OUT--RAM
+||REG=RAM
+||PC+=1
+||if borrow: PC+=1 #only if RAM is NOT 0
+CLEAR ACC()
+CLEAR ACC()
+
+#IN HEX
+|4
+|OUT
+|OUT
+|RAM
+|5
+|4
+|0
+|OUT
+|4
+|4
+
+IN #put in into ram
+---------------------------------------------------------------------------
+
+#erase ram, place in into acc, negate it, subtract negative into ram
+
+#put in into ram
+|
+|ERASE REGISTER(RAM)
+|
+|#place in into acc
+||REG=IN
+||Acc=IN-0
+||REG=IN
+||PC+=1
+|
+|#negate IN to get -IN
+||REG=5
+||Acc=0-IN
+||REG=-IN
+||PC+=1
+||if borrow: PC+=1 #will always skip except when IN is zero
+|
+|CLEAR ACC() #if IN is zero then 0-0 will be zero anyway
+|
+|#place -IN into RAM
+||REG=RAM
+||Acc=RAM--IN
+||REG=RAM--IN
+||PC+=1
+||if borrow: PC+=1 #will always skip except when IN is zero
+|
+|CLEAR ACC() #if IN is zero then 0-0 will be zero anyway
+|
+|CLEAR ACC()
+
+#IN HEX
+|4
+|RAM
+|RAM
+|IN
+|5
+|4
+|RAM
+|4
+|4
+
+JUMP IF ZERO
+---------------------------------------------------------------------------
+
+#jump: we can subtract and subtract negatives to jump
+#How do we get the number in the first place.
+
+JUMP IF NONZERO
+---------------------------------------------------------------------------

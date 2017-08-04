@@ -1,0 +1,25 @@
+*Notes*
+
+0=Program Counter
+1=ACC
+2=0
+3=Input reg
+4=output reg
+
+0=IAR
+1=IAR2
+2=IN
+3=OUT
+4=ACC
+5=ZERO
+6=MAR
+7=ONE
+8+=RAM
+
+*End Note*
+
+A=RAM addr from ROM
+Acc=A-ACC
+A=ACC
+PC+=1
+if borrow: PC+=1

@@ -1,0 +1,29 @@
+Brainfuck DJ converts notes and duration to binary
+that is compatible with a four bit dac
+It supports 16 Notes
+the first bit is on or off
+
+FORMAT:
+e4 means eeee
+b and b1 both mean b
+
+
+The format is:
+Duration=16 #so e3 is actually e48
+Notes=[a,b,c,d,e,f,g,A,R]
+#So
+#R=00000 #0,rest
+#a=00001 #1
+#b=00011 #3
+#c=00101 #5
+#d=00111 #7
+#e=01001 #9
+#f=01011 #11
+#g=01101 #13
+#A=01111 #15
+
+#so e2bcd2 is:
+eebcdd which is:
++++++++++..------.++.++.
+
+so using one register is faster
