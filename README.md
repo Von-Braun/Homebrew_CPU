@@ -8,6 +8,12 @@ A record of my homebrew cpu. If you have any questions, feel free to email me at
 ## <a name="RSSB"></a>RSSB
 <img src="https://github.com/Von-Braun/Homebrew_CPU/blob/master/RSSB%20notes/circuit_images/RSSB_full.PNG" height="500">  
 
+* #### Specificstions  
+  Architecture: Harvard  
+  ROM: 16-bit address(65536 cells), 8-bit data  
+  RAM: 8-bit address(256 cells), 8-bit data  
+  Type: [OISC(One instruction set computer)](https://en.wikipedia.org/wiki/One_instruction_set_computer)
+
 [Notes/photos/circuits regarding the RSSB CPU](/RSSB%20notes/)
 
 I was inspired to design and build my own CPU when I saw [this video](https://www.youtube.com/watch?v=cNN_tTXABUA) and read the book it was based on, called **But how do it know?** I spent a long time working on an [RSSB CPU](https://en.wikipedia.org/wiki/One_instruction_set_computer#Reverse_subtract_and_skip_if_borrow) and it got quite far into the construction stage as seen in the video below.
