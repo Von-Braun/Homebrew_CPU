@@ -40,8 +40,8 @@ However I made the mistake of not running it through enough tests(I only checked
   3 = Out  
   4 = Acc  
   5 = Zero  
-  6 = NOP?
-  7 = NOP?
+  6 = NOP?  
+  7 = NOP?  
   Anything above 7 is treated as an address in RAM
   
 The circuit below is what's responible for the two parts above(i.e. the memory-mapping and 5-step-loop):  
